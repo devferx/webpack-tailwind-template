@@ -24,6 +24,22 @@ module.exports = {
         use: ['html-loader']
       },
       {
+        //IMAGE LOADER
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'assets/img'
+        }
+      },
+      {
+        // ASSET LOADER
+        test: /\.(woff|woff2|ttf|eot)$/,
+        loader: 'file-loader',
+        options: {
+          outputPath: 'assets/fonts'
+        }
+      },
+      {
         test: /\.css$/,
         use: [ isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "postcss-loader"]
       }
@@ -31,8 +47,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html')
+      template: path.resolve(__dirname, 'src/index.html')
     }),
-    isProd? new MiniCssExtractPlugin() : () => {}
+    isProd ? new MiniCssExtractPlugin() : () => { },
   ]
 }

@@ -2,13 +2,13 @@ require('dotenv').config();
 
 const isProd = process.env.ENV === 'production';
 
-let purge = {}
+let purge = {};
 
 if (isProd) {
   purge = {
     enabled: true,
-    content: ['./public/**/*.html'],
-  }
+    content: ["./src/**/*.html"],
+  };
 }
 
 module.exports = {
@@ -21,4 +21,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+};
