@@ -1,54 +1,55 @@
-require('dotenv').config();
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin  =  require('html-webpack-plugin');
+require("dotenv").config();
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const isProd = process.env.ENV === 'production';
+const isProd = process.env.ENV === "production";
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/index.js'),
+  entry: path.resolve(__dirname, "src/index.js"),
   mode: process.env.ENV,
   output: {
     filename: "[name].js",
-    path: path.resolve('./dist'),
-    publicPath: '/',
+    path: path.resolve("./dist"),
+    publicPath: "/",
   },
   devServer: {
     port: 5050,
-    contentBase: path.join(__dirname, 'dist')
+    contentBase: path.join(__dirname, "dist"),
   },
   module: {
     rules: [
       {
         test: /\.html$/,
-        use: ['html-loader']
+        use: ["html-loader"],
       },
       {
         //IMAGE LOADER
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          outputPath: 'assets/img'
-        }
+          outputPath: "assets/img",
+          name: "[hash].[ext]",
+        },
       },
       {
         // ASSET LOADER
         test: /\.(woff|woff2|ttf|eot)$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          outputPath: 'assets/fonts'
-        }
+          outputPath: "assets/fonts",
+        },
       },
       {
         test: /\.css$/,
-        use: [ isProd ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "postcss-loader"]
-      }
-    ]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src/index.html')
+      template: path.resolve(__dirname, "src/index.html"),
     }),
-    isProd ? new MiniCssExtractPlugin() : () => { },
-  ]
-}
+    new MiniCssExtractPlugin(),
+  ],
+};

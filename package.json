@@ -16,7 +16,6 @@
     "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^7.0.0",
     "css-loader": "^5.0.1",
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
