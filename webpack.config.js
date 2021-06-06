@@ -1,6 +1,7 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -8,7 +9,7 @@ module.exports = {
   entry: path.resolve(__dirname, "src/index.js"),
   mode: process.env.ENV,
   output: {
-    filename: "[name].js",
+    filename: "[name].[contenthash].js",
     path: path.resolve("./dist"),
     publicPath: "/",
   },
@@ -40,6 +41,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
     }),
-    isProd ? new MiniCssExtractPlugin() : () => {},
+    isProd
+      ? new MiniCssExtractPlugin({
+          filename: "styles.[contenthash].css",
+        })
+      : () => {},
+    isProd ? new CleanWebpackPlugin() : () => {},
   ],
 };
