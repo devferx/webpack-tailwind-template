@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === "production";
 
+/** @type {import("webpack").Configuration} */
 module.exports = {
   entry: path.resolve(__dirname, "src/index.js"),
   mode: process.env.ENV,
@@ -12,9 +13,16 @@ module.exports = {
     filename: "[name].[contenthash].js",
     path: path.resolve("./dist"),
     publicPath: "/",
+    assetModuleFilename: "assets/[hash][ext][query]",
+  },
+  resolve: {
+    alias: {
+      "@assets": path.resolve(__dirname, "src/assets"),
+    },
   },
   devServer: {
     port: 5050,
+    compress: true,
     contentBase: path.join(__dirname, "dist"),
   },
   module: {
@@ -39,7 +47,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "public/index.html"),
+      template: path.resolve(__dirname, "src/index.html"),
     }),
     isProd
       ? new MiniCssExtractPlugin({
