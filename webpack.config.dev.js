@@ -1,9 +1,5 @@
 const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 /** @type {import("webpack").Configuration} */
 module.exports = {
@@ -20,6 +16,12 @@ module.exports = {
       "@assets": path.resolve(__dirname, "src/assets"),
     },
   },
+  devServer: {
+    port: 5050,
+    compress: true,
+    open: true,
+    contentBase: path.join(__dirname, "dist"),
+  },
   module: {
     rules: [
       {
@@ -28,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -40,13 +42,5 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html"),
     }),
-    new MiniCssExtractPlugin({
-      filename: "styles.[contenthash].css",
-    }),
-    new CleanWebpackPlugin(),
   ],
-  optimization: {
-    minimize: true,
-    minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
-  },
 };
