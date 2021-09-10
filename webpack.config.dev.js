@@ -20,7 +20,8 @@ module.exports = {
     port: 5050,
     compress: true,
     open: true,
-    contentBase: path.join(__dirname, "dist"),
+    static: path.join(__dirname, "dist"),
+    hot: false,
   },
   module: {
     rules: [
